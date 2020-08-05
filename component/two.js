@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, Alert, BackHandler,Button, FlatList} from 'react-native';
 
-import { Router, Scene,Stack,Actions } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 
 export default class TWo extends React.Component {
     constructor(props) {
@@ -24,17 +24,14 @@ export default class TWo extends React.Component {
               id:3,
               name:"dd"
             }
-          ],
-
-      value: '',
-      list: ['a', 'b', 'c'],
+          ]
       };
      
      
      
     }
     componentDidMount(){
-      Actions.three()
+      
     }
 
  

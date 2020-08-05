@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, Alert, BackHandler,Button } from 'react-native';
 
-import { Router, Scene,Stack,Actions } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 
 export default class One extends React.Component {
     constructor(props) {
