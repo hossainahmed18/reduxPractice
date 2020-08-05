@@ -5,6 +5,8 @@ import { Router, Scene,Stack, Actions } from 'react-native-router-flux';
 import One from './component/one';
 import Two from './component/two';
 import Three from './component/three';
+import { Provider } from 'react-redux'
+import store from './redux/store'
 
 
 export default class App extends React.Component {
@@ -23,16 +25,16 @@ componentDidMount() {
 
   render(){
     return (
-      <Router>
-         <Stack key="root">
-            <Scene key="one" component={One}  initial={true} />
-            <Scene key="two" component={Two}  />
-            <Scene key="three" component={Three}  />
-
-      
-        </Stack>
+      <Provider store={store}>
+        <Router>
+          <Stack key="root">
+            <Scene key="one" component={One} initial={true} />
+            <Scene key="two" component={Two} />
+            <Scene key="three" component={Three} />
+          </Stack>
         </Router>
-    
+      </Provider>
+      
     );
   }
   
