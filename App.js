@@ -1,14 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { StyleSheet, Text, View, Alert, BackHandler } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Junayed</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+import { Router, Scene,Stack, Actions } from 'react-native-router-flux';
+import One from './component/one';
+import Two from './component/two';
+import Three from './component/three';
+
+
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        check: "false"
+    };
+        
+    
+  }
+
+componentDidMount() {
+    
+}
+
+  render(){
+    return (
+      <Router>
+         <Stack key="root">
+            <Scene key="one" component={One}  initial={true} />
+            <Scene key="two" component={Two}  />
+            <Scene key="three" component={Three}  />
+
+      
+        </Stack>
+        </Router>
+    
+    );
+  }
+  
 }
 
 const styles = StyleSheet.create({
