@@ -11,6 +11,7 @@ export default class Posts extends React.Component {
          create:false,
          title:'',
          body:'',
+         editing:false,
          posts:[]
 
       };
@@ -26,13 +27,40 @@ export default class Posts extends React.Component {
              console.log(error)
           })
     }
+
+    setForEdit(data){
+      this.setState({
+        title:data.title,
+        body:data.body,
+        editing:true
+       })
+    }
+
+    refresh(){
+       this.setState({
+        title:'',
+        body:'',
+        create:false,
+        editing:false
+       })
+    }
+    saveOrEdit(){
+       if(this.state.create==true){
+          Alert.alert("inserting")
+          this.refresh()
+       }
+       if(this.state.editing==true){
+        Alert.alert("updating")
+        this.refresh()
+     }
+    }
   
     render(){
       return (
         <ScrollView  >
           <Text style={{ marginBottom: '5%',fontSize:20,alignItems:'center' }}>Post One</Text>
           {
-            this.state.create == false ?
+            this.state.create == true || this.state.editing==true ?
               <View style={{ marginBottom: '2%',alignItems:'center' }} onPress={() => Actions.one()}>
                 
                 <Text style={styles.inputHeader}>Title: {this.state.title}</Text>
@@ -40,20 +68,20 @@ export default class Posts extends React.Component {
 
                 <Text style={styles.inputHeader}>Body: {this.state.body}</Text>
                 <TextInput style={styles.textInput} onChangeText={(text) => this.setState({ body: text })} value={this.state.body}></TextInput>
-                 <TouchableOpacity style={styles.buttonStyles}><Text>Save</Text></TouchableOpacity>
+                 <TouchableOpacity style={styles.buttonStyles} onPress={()=>this.saveOrEdit()}><Text>Save</Text></TouchableOpacity>
               </View>
               :
               <Text></Text>
           }
-          <TouchableOpacity style={styles.AddbuttonStyles}><Text>Add Post</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.AddbuttonStyles} onPress={()=>this.setState({create:true})}><Text>Add Post</Text></TouchableOpacity>
           {
             this.state.posts.map((data,index)=>{
                return(
-                 <View style={styles.commonStyle}>
+                 <TouchableOpacity style={styles.commonStyle} onLongPress={()=>this.setForEdit(data)}>
                     <Text>{index}</Text>
                     <Text style={{fontSize:15}}>{data.title}</Text>
                     <Text style={{fontSize:10}}>{data.body}</Text>
-                 </View>
+                 </TouchableOpacity>
                )
                
             })
