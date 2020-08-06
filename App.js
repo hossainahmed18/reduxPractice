@@ -6,7 +6,7 @@ import One from './component/one';
 import Two from './component/two';
 import Three from './component/three';
 import Menu from './component/menu';
-import Posts from './component/posts';
+import postsOne from './component/postsOne';
 import { Provider } from 'react-redux'
 import store from './redux/store'
 
@@ -31,7 +31,7 @@ export default class App extends React.Component {
         <Router>
           <Stack key="root">
             <Scene key="menu" component={Menu} initial={true} />
-            <Scene key="posts" component={Posts}/>
+            <Scene key="postsOne" component={postsOne}/>
             <Scene key="one" component={One} />
             <Scene key="two" component={Two} />
             <Scene key="three" component={Three} />

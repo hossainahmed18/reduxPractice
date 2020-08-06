@@ -18,7 +18,7 @@ export default class Menu extends React.Component {
                 <Text>Check</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonStyles} onPress={()=>Actions.posts()}>
+            <TouchableOpacity style={styles.buttonStyles} onPress={()=>Actions.postsOne()}>
                <Text>Posts</Text>
             </TouchableOpacity>
         </View>
