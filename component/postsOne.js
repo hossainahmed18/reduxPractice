@@ -2,36 +2,35 @@ import * as React from 'react';
 import { StyleSheet, Text, View, Alert, BackHandler,Button, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 
 import {Actions } from 'react-native-router-flux';
-import axios from 'axios';
 
-export default class Posts extends React.Component {
+import {connect} from 'react-redux'
+import { addPost,updatePost,fetchPosts } from '../redux/actions/postOneActions'
+
+class PostOne extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
          create:false,
          title:'',
          body:'',
+         editItem:{},
          editing:false,
-         posts:[]
+        
 
       };
     }
     componentDidMount(){
-        axios.get('https://jsonplaceholder.typicode.com/posts')
-          .then((Response)=>{
-             this.setState({
-               posts:Response.data.slice(0,20)
-             })
-          })
-          .catch((error)=>{
-             console.log(error)
-          })
+      if(this.props.posts.length==0){
+         this.props.fetchPosts()
+      }
+        
     }
 
     setForEdit(data){
       this.setState({
         title:data.title,
         body:data.body,
+        editItem:data,
         editing:true
        })
     }
@@ -41,16 +40,27 @@ export default class Posts extends React.Component {
         title:'',
         body:'',
         create:false,
-        editing:false
+        editing:false,
+        editItem:{}
        })
     }
     saveOrEdit(){
        if(this.state.create==true){
-          Alert.alert("inserting")
+         let postObject={
+            title:this.state.title,
+            body:this.state.body
+         }
+          this.props.addPost(postObject,this.props.posts)
           this.refresh()
        }
        if(this.state.editing==true){
-        Alert.alert("updating")
+        let postObject={
+          title:this.state.title,
+          body:this.state.body,
+          id: this.state.editItem.id,
+          userId: this.state.editItem.userId
+       }
+        this.props.updatePost(postObject,this.props.posts)
         this.refresh()
      }
     }
@@ -58,10 +68,16 @@ export default class Posts extends React.Component {
     render(){
       return (
         <ScrollView  >
-          <Text style={{ marginBottom: '5%',fontSize:20,alignItems:'center' }}>Post One</Text>
+          <View style={{ flexDirection: "row" }}>
+          
+            <TouchableOpacity style={styles.menuButtonStyles} onPress={() => Actions.postOne()}><Text>PostOne</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.menuButtonStyles} onPress={() => Actions.postTwo()}><Text>PostTow </Text></TouchableOpacity>
+            <TouchableOpacity style={styles.menuButtonStyles} onPress={() => Actions.cakes()}><Text>Cakes </Text></TouchableOpacity>
+          </View>
+          
           {
             this.state.create == true || this.state.editing==true ?
-              <View style={{ marginBottom: '2%',alignItems:'center' }} onPress={() => Actions.one()}>
+              <View style={{ marginTop:'10%',marginBottom: '2%',alignItems:'center' }} onPress={() => Actions.one()}>
                 
                 <Text style={styles.inputHeader}>Title: {this.state.title}</Text>
                 <TextInput style={styles.textInput} onChangeText={(text) => this.setState({ title: text })} value={this.state.title}></TextInput>
@@ -75,10 +91,10 @@ export default class Posts extends React.Component {
           }
           <TouchableOpacity style={styles.AddbuttonStyles} onPress={()=>this.setState({create:true})}><Text>Add Post</Text></TouchableOpacity>
           {
-            this.state.posts.map((data,index)=>{
+            this.props.posts.map((data,index)=>{
                return(
                  <TouchableOpacity style={styles.commonStyle} onLongPress={()=>this.setForEdit(data)}>
-                    <Text>{index}</Text>
+                    <Text>{data.id}</Text>
                     <Text style={{fontSize:15}}>{data.title}</Text>
                     <Text style={{fontSize:10}}>{data.body}</Text>
                  </TouchableOpacity>
@@ -91,6 +107,18 @@ export default class Posts extends React.Component {
       );
     }
     
+  }
+  const mapStateToProps= state=>{
+      return{
+        posts: state.oneReducer.posts
+      }
+  }
+  const mapDispatchToProps=dispatch=>{
+      return{
+        fetchPosts:()=>dispatch(fetchPosts()),
+        addPost:(data,items)=>dispatch(addPost(data,items)),
+        updatePost:(data,items)=>dispatch(updatePost(data,items)),
+      }
   }
   
   const styles = StyleSheet.create({
@@ -110,6 +138,16 @@ export default class Posts extends React.Component {
         marginRight:'60%'
 
     },
+    menuButtonStyles:{
+      backgroundColor:'#87cefa',
+      marginTop:'5%',
+      alignItems: 'center',
+      borderWidth:1,
+      borderColor: '#000000',
+      width:'30%',
+      marginLeft :'3%'
+
+  },
     commonStyle:{
       backgroundColor:'#87cefa',
       marginTop:'2%',
@@ -144,4 +182,5 @@ export default class Posts extends React.Component {
 
 
   });
+  export default connect(mapStateToProps,mapDispatchToProps)(PostOne)
   

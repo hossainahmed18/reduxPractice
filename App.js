@@ -6,7 +6,9 @@ import One from './component/one';
 import Two from './component/two';
 import Three from './component/three';
 import Menu from './component/menu';
-import postsOne from './component/postsOne';
+import PostOne from './component/postsOne';
+import PostTwo from './component/postsTwo';
+import Cakes from './component/cakes';
 import { Provider } from 'react-redux'
 import store from './redux/store'
 
@@ -31,10 +33,12 @@ export default class App extends React.Component {
         <Router>
           <Stack key="root">
             <Scene key="menu" component={Menu} initial={true} />
-            <Scene key="postsOne" component={postsOne}/>
+            <Scene key="postOne" component={PostOne}/>
+            <Scene key="postTwo" component={PostTwo}/>
             <Scene key="one" component={One} />
             <Scene key="two" component={Two} />
             <Scene key="three" component={Three} />
+            <Scene key="cakes" component={Cakes} />
 
           </Stack>
         </Router>

@@ -1,17 +1,10 @@
+import postOneReducer from './postOneReducer'
+import cakeReducer from './cakeReducer'
+import { combineReducers } from 'redux'
 
-const initialState = {
-  numOfIceCreams: 20
-}
-
-const rootReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 1: return {
-      ...state,
-      numOfIceCreams: state.numOfIceCreams - 1
-    }
-
-    default: return state
-  }
-}
+const rootReducer = combineReducers({
+   oneReducer:postOneReducer,
+   twoReducer:cakeReducer
+})
 
 export default rootReducer
